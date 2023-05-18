@@ -2,8 +2,11 @@
 module.exports = {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        128: "2rem",
+      },
+    },
   },
   plugins: [],
-}
-
+};
