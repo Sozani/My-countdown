@@ -9,7 +9,7 @@
 
     <title>MyCountdown</title>
 </head>
-<body  onmousemove="moveImage()" class="bg-gradient-to-r from-cyan-400 to-fuchsia-500   ">
+<body  onmousemove="moveImage(event)" class="bg-gradient-to-r from-cyan-400 to-fuchsia-500   ">
 
 <!-- The container of buttons -->
 <div class="p-5 flex justify-end text-center pt-10" > 
@@ -18,9 +18,9 @@
    <div class="pr-3"><button class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">ALARM</button></div>
 </div>
 <!-- This div contain div of images and div of coutdown -->
-<div class="flex justify-between px-10 h-auto overflow-hidden ">
+<div class="flex justify-between px-10  overflow-hidden ">
     <!-- images container -->
-    <div class="max-w-xs w-80 mt-20 border-8 flex h-[32rem] pt-10 relative"  id="imageContainer">
+    <div class="max-w-xs w-96 mt-20 border-8 flex h-[32rem] pt-10 relative"  id="imageContainer">
         <!-- images-1 -->
 <div>
 <img class="w-64" src="./images/Untitled design (20).png" alt="" draggable="false">
@@ -46,18 +46,29 @@
     </div>
     <script >
         //declar drag variable outside the function
-       let drag;
+       let drag =false;
        //Add attributes to any image in Dom automatic
     function addDraggableAttributeToImages() {
         const images = document.querySelectorAll('img');
         images.forEach((image) => {
             image.setAttribute('draggable', 'false');
              image.setAttribute('onmousedown', 'drag=true');
-              image.setAttribute('onmouseup', 'drag=false');
-              image.setAttribute('id', 'imageX');
-             
-            image.style.left = '0';
-            image.style.top = '0';
+            //   image.setAttribute('onmouseup', 'drag=false');
+            //     image.id = `image${index + 1}`; // Assign unique id dynamically
+            // image.style.position = 'static'; // Set initial position to static
+            // image.style.left = '0';
+            // image.style.top = '0';
+            image.addEventListener('mousedown', function () {
+                // Set position to absolute when clicked
+                image.style.position = 'absolute';
+                image.style.width = '100%';
+               
+                 });
+            //   image.addEventListener('mouseup', function () {
+            //     // Set position to static when mouseup
+            //     image.style.position = 'static';
+            // });
+               
         });
     }
     //call addDraggableAttributeToImages when Dom loading
@@ -66,18 +77,23 @@
         });
         //set function to move the image depended on the mouse moving
 
-        let moveImage = function(event){
-        const imageContainer=document.getElementById('imageContainer');
-        const images = imageContainer.querySelectorAll('img');
-        images.forEach((image) => {
-                 if(drag){
-                     image.style.left = event.clientX + 'px';
-                     image.style.top = event.clientY + 'px';
-                       image.style.position = 'absolute';
-            }   
+       
+ let moveImage = function (event) {
+     const imageContainer = document.getElementById('imageContainer');
+                         const images = imageContainer.querySelectorAll('img');
+                         images.forEach((image) => {
+                             if (drag && image.style.position === 'absolute') {
+                                 image.style.left = event.clientX + 'px';
+                                 image.style.top = event.clientY + 'px';
+                                
+                             }
+
+                         });
+                     }
+              
                 
-            });
-        }
+        
+        
     </script>
 </body>
 </html>
