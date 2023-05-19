@@ -21,7 +21,7 @@
     
     <div class="max-w-xs w-80 mt-20 border-8 flex h-[32rem] pt-10">
 <div>
-<img class="w-64" src="./images/Untitled design (20).png" alt="">
+<img class="w-64" src="./images/Untitled design (20).png" alt="" draggable="false">
 <img class="w-64" src="./images/Untitled design (21).png" alt="">
 <img class="w-64" src="./images/Untitled design (22).png" alt="">
 <img class="w-64" src="./images/Untitled design (23).png" alt="">
@@ -40,8 +40,28 @@
     </div>
     <div id="countdown">Hello</div>
     </div>
-    <script src="">
+    <script >
+        //declar drag variable outside the function
+       let drag;
+       //Add attributes to any image in Dom automatic
+    function addDraggableAttributeToImages() {
+        const images = document.querySelectorAll('img');
+        images.forEach((image) => {
+            image.setAttribute('draggable', 'false');
+             image.setAttribute('onmousedown', 'drag=true');
+              image.setAttribute('onmouseup', 'drag=false');
+        });
+    }
+    //call addDraggableAttributeToImages when Dom loading
+    document.addEventListener('DOMContentLoaded', function () {
+            addDraggableAttributeToImages();
+        });
+        //set function to move the image depended on the mouse moving
+        let moveImage = function(){
+            if(drag){
 
+            }
+        }
     </script>
 </body>
 </html>
