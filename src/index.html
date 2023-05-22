@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
 <script src="https://cdn.tailwindcss.com"></script>
 
 
@@ -14,7 +21,7 @@
 <!-- The container of buttons -->
 <div class="p-5 flex justify-end text-center pt-10" > 
    <div class="pr-3" ><button class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md"  >BACKGROUND</button></div>
-   <div class="pr-3"><button class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">DESIGN</button></div>
+   <div class="pr-3"><button onclick="stopConfetti()" class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">STOP CONFETTI</button></div>
    <div class="pr-3"><button class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">ALARM</button></div>
 </div>
 <!-- This div contain div of images and div of coutdown -->
@@ -42,8 +49,10 @@
        
     </div>
     <!-- Countdown -->
-    <div id="countdown">Hello</div>
+   
+    <div id="countdown" class="flex justify-center mt-40 mr-20 items-center text-center bg-transparent border-8 h-[200px] text-white text-[3rem] w-[60%]"></div>
     </div>
+    <button >Click to Celebrate Goal!</button>
     <script >
         //declar drag variable outside the function
        let drag =false;
@@ -90,9 +99,110 @@
 
                          });
                      }
-              
+              //The section for countdown
+               // Get the target event date
+                let eventDate = new Date('2023-05-21T11:34:00Z');
                 
-        
+                //declar the count variable outside the function
+                let count;
+        //function to update the countdown timer
+                function updateCountDown() {
+                        let currentDate = new Date();
+                        let differenceTime = eventDate - currentDate;
+                        //Clear the time out ane dissplay a message
+                        if (differenceTime <= 0) {
+                            clearTimeout(count);
+                            document.getElementById('countdown').innerHTML = "Let's Celebrate The Event Start";
+                            celebrateGoal()
+                            return;
+                        }
+                        //Calculate remaining days,hours,hours,minutes and seconds
+                        let day = Math.floor(differenceTime / (24 * 60 * 60 * 1000));
+                        let hours = Math.floor(differenceTime % (24 * 60 * 60 * 1000) / (60 * 60 * 1000));
+                        let minutes = Math.floor(differenceTime % (60 * 60 * 1000) / (60 * 1000));
+                        let seconds = Math.floor(differenceTime % (60 * 1000) / 1000);
+                        //Update the count down element
+                        document.getElementById('countdown').innerHTML = `days ${day}: hours ${hours}: minutes ${minutes}: seconds ${seconds}`
+                        //Update the countdown every second
+                        count = setTimeout(updateCountDown, 1000);
+                        //call the function to start the counter
+
+                    }
+
+                    updateCountDown()
+                    // There was one issue in this code and I fixed it the issue was I had to declar the count outside function not inside the function.
+//celebration function
+    function celebrateGoal() {
+        // Create a canvas element
+        var canvas = document.createElement("canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.body.appendChild(canvas);
+
+        // Get the canvas context
+        var context = canvas.getContext("2d");
+
+        // Generate random confetti particles
+        var confettiParticles = [];
+        for (var i = 0; i < 100; i++) {
+            confettiParticles.push(createConfettiParticle(canvas.width, canvas.height));
+        }
+
+        // Animation loop
+        function animateConfetti() {
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw confetti particles
+            for (var i = 0; i < confettiParticles.length; i++) {
+                var particle = confettiParticles[i];
+                particle.y += particle.speed;
+
+                // Rotate the confetti particle
+                particle.rotation += particle.rotationSpeed;
+
+                // Draw the confetti particle
+                context.save();
+                context.translate(particle.x, particle.y);
+                context.rotate(particle.rotation);
+                context.fillStyle = particle.color;
+                context.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+                context.restore();
+
+                // Reset the confetti particle if it goes off-screen
+                if (particle.y > canvas.height) {
+                    confettiParticles[i] = createConfettiParticle(canvas.width, canvas.height);
+                }
+            }
+
+            // Repeat the animation loop
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Start the animation loop
+        animateConfetti();
+    }
+
+    // Function to create a confetti particle
+    function createConfettiParticle(canvasWidth, canvasHeight) {
+        var colors = ["#ff4081", "#3f51b5", "#00bcd4", "#8bc34a", "#ffc107"];
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var size = Math.random() * 10 + 5;
+        var x = Math.random() * canvasWidth;
+        var y = -size;
+        var speed = Math.random() * 3 + 2;
+        var rotationSpeed = Math.random() * 0.1 + 0.05;
+        var rotation = Math.random() * 360;
+        return { color, size, x, y, speed, rotationSpeed, rotation };
+    }
+      // Function to stop the confetti animation
+        function stopConfetti() {
+            cancelAnimationFrame(animationFrameId);
+            var canvas = document.querySelector("canvas");
+            if (canvas) {
+                canvas.remove();
+            }
+        }   
         
     </script>
 </body>
