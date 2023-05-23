@@ -7,8 +7,9 @@
     <style>
         canvas {
             position: fixed;
-            top: 0;
+            top: 100px;
             left: 0;
+           
         }
     </style>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -19,40 +20,37 @@
 <body  onmousemove="moveImage(event)" class="bg-gradient-to-r from-cyan-400 to-fuchsia-500   ">
 
 <!-- The container of buttons -->
-<div class="p-5 flex justify-end text-center pt-10" > 
-   <div class="pr-3" ><button class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md"  >BACKGROUND</button></div>
-   <div class="pr-3"><button onclick="stopConfetti()" class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">STOP CONFETTI</button></div>
+<div class=" flex justify-between text-center pt-10" >
+    <div class=" w-[30rem] ms-10  shadow-xl border-8 flex h-[5rem]  relative" id="imageContainer">
+        <!-- images-1 -->
+        <div class="flex justify-center ps-2">
+            <img class="" src="./images/face-holding-back-tears_1f979.png" alt="" draggable="false">
+           <img class="" src="./images/face-with-open-eyes-and-hand-over-mouth_1fae2.png" alt="">
+        <img class="" src="./images/face-with-thermometer_1f912.png" alt="">
+        <img class="" src="./images/angry-face_1f620.png" alt="">
+        <img class="" src="./images/face-with-spiral-eyes_1f635-200d-1f4ab.png" alt="">
+        <img class="" src="./images/smiling-face-with-hearts_1f970.png" alt="">
+        <img class="" src="./images/smiling-face-with-sunglasses_1f60e.png" alt="">
+    
+        </div>
+    
+    
+    </div>
+    <div class="flex mr-10">
+   <div class="pr-3" ><button   class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md"  >BACKGROUND</button></div>
+   <div class="pr-3"><button  onclick="removeChildElement()" class="px-4  py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">STOP CONFETTI</button></div>
    <div class="pr-3"><button class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md">ALARM</button></div>
 </div>
+</div>
 <!-- This div contain div of images and div of coutdown -->
-<div class="flex justify-between px-10  overflow-hidden ">
+<div class="flex justify-between px-10 h-[40.5rem] overflow-hidden  ">
     <!-- images container -->
-    <div class="max-w-xs w-96 mt-20 border-8 flex h-[32rem] pt-10 relative"  id="imageContainer">
-        <!-- images-1 -->
-<div>
-<img class="w-64" src="./images/Untitled design (20).png" alt="" draggable="false">
-<img class="w-64" src="./images/Untitled design (21).png" alt="">
-<img class="w-64" src="./images/Untitled design (22).png" alt="">
-<img class="w-64" src="./images/Untitled design (23).png" alt="">
-<img class="w-64" src="./images/Untitled design (24).png" alt="">
-</div>
-<!-- images-2 -->
-<div>
-<img class="w-64" src="./images/Untitled design (25).png" alt="">
-<img class="w-64" src="./images/Untitled design (26).png" alt="">
-<img class="w-64" src="./images/Untitled design (30).png" alt="">
-<img class="w-64" src="./images/Untitled design (31).png" alt="">
-<img class="w-64" src="./images/Untitled design (32).png" alt="">
-
-</div>
-        
-       
-    </div>
+    
     <!-- Countdown -->
    
-    <div id="countdown" class="flex justify-center mt-40 mr-20 items-center text-center bg-transparent border-8 h-[200px] text-white text-[3rem] w-[60%]"></div>
+    <div id="countdown" class="flex justify-center shadow-xl  mt-40 mr-20 items-center text-center bg-transparent border-8 h-[200px] text-white text-[3rem] w-[60%]"></div>
     </div>
-    <button >Click to Celebrate Goal!</button>
+   
     <script >
         //declar drag variable outside the function
        let drag =false;
@@ -101,10 +99,11 @@
                      }
               //The section for countdown
                // Get the target event date
-                let eventDate = new Date('2023-05-21T11:34:00Z');
+                let eventDate = new Date('2023-05-25T11:34:00Z');
                 
                 //declar the count variable outside the function
                 let count;
+               
         //function to update the countdown timer
                 function updateCountDown() {
                         let currentDate = new Date();
@@ -112,10 +111,14 @@
                         //Clear the time out ane dissplay a message
                         if (differenceTime <= 0) {
                             clearTimeout(count);
-                            document.getElementById('countdown').innerHTML = "Let's Celebrate The Event Start";
-                            celebrateGoal()
+                            document.getElementById('countdown').innerHTML = "Congratulations, you have achieved your goal :)";
+                           celebrateGoal();
+                          
                             return;
                         }
+                        //Add if statement to stop celebrateGoal function
+
+
                         //Calculate remaining days,hours,hours,minutes and seconds
                         let day = Math.floor(differenceTime / (24 * 60 * 60 * 1000));
                         let hours = Math.floor(differenceTime % (24 * 60 * 60 * 1000) / (60 * 60 * 1000));
@@ -138,7 +141,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         document.body.appendChild(canvas);
-
+          canvas.setAttribute("id", "canvasId");
         // Get the canvas context
         var context = canvas.getContext("2d");
 
@@ -195,15 +198,15 @@
         var rotation = Math.random() * 360;
         return { color, size, x, y, speed, rotationSpeed, rotation };
     }
-      // Function to stop the confetti animation
-        function stopConfetti() {
-            cancelAnimationFrame(animationFrameId);
-            var canvas = document.querySelector("canvas");
-            if (canvas) {
-                canvas.remove();
-            }
-        }   
-        
+      //Function to stop the confetti animation
+       function removeChildElement() {
+            var parentElement = document.body;
+            var childElement = document.getElementById("canvasId");
+            console.log(parentElement)
+            // Remove the child element from its parent
+            parentElement.removeChild(childElement);
+        }
+          
     </script>
 </body>
 </html>
