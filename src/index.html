@@ -17,7 +17,7 @@
   </head>
   <body
     onmousemove="moveImage(event)"
-    class="blur-lg bg-gradient-to-r from-cyan-400 to-fuchsia-500"
+    class="bg-gradient-to-r from-cyan-400 to-fuchsia-500"
   >
     <!-- The container of buttons -->
     <div class="flex justify-between text-center pt-10">
@@ -104,7 +104,41 @@
         class="flex justify-center shadow-xl mt-40 mr-20 items-center text-center bg-transparent border-8 h-[200px] text-white text-[3rem] w-[60%]"
       ></div>
     </div>
+    <!-- <div
+      id="popup"
+      class="w-20 h-24 bg-cyan-400 rounded-md absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center pt-0 pb-[30%] px-[30%]text-white text-3xl"
+    >
+      <h2
+        id="popH"
+        class="font-sans text-3xl font-bold text-white mt-8 mb-0 mx-10"
+      ></h2>
 
+      <button
+        class="px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md"
+      >
+        Thanks
+      </button>
+    </div> -->
+    <div
+      id="popup"
+      class="fixed invisible inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75"
+    >
+      <div class="bg-white rounded-lg p-8">
+        <img
+          class="w-14 mt-[-50px]"
+          src="./images/smiling-face-with-sunglasses_1f60e.png"
+          alt=""
+        />
+        <h2 id="popH" class="text-2xl font-bold mb-4">Popup Content</h2>
+
+        <button
+          onclick="removePopup()"
+          class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded-md shadow-md"
+        >
+          Close
+        </button>
+      </div>
+    </div>
     <script>
       //declar drag variable outside the function
       let drag = false;
@@ -308,11 +342,18 @@
           const quotes = data.quotes; // Assuming the API response contains an array of quotes
           // const randomIndex = Math.floor(Math.random() * quotes.length);
           // const randomQuote = quotes[randomIndex];
-
-          alert(data.content);
+          // put qoutes in popup div
+          document.getElementById("popH");
+          document.getElementById("popup");
+          popup.style.visibility = "visible";
+          popH.innerHTML = data.content;
         } catch (error) {
           console.error("Error:", error);
         }
+      }
+      function removePopup() {
+        document.getElementById("popup");
+        popup.style.visibility = "hidden";
       }
     </script>
   </body>
